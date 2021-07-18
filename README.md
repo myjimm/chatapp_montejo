@@ -1,3 +1,3 @@
 # chatapp_montejo
 
-phone used: Nexus 6 API 30
+phones used: Nexus 6 API 30 and OPPO A3s (CPH1803)
