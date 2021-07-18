@@ -16,11 +16,11 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
 
   Widget _buildLogoColumn(){
     return Container(
-      height: 0.4 * MediaQuery.of(context).size.height,
+      padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
+      height: 0.42 * MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: Image(
-        image: AssetImage('assets/montejo_logo.png'),
-        fit: BoxFit.fill
+        image: AssetImage('assets/montejo_logo.png')
       ),
     );
   }
@@ -28,17 +28,17 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
   Widget _buildUsername(){
     return Container(
       child: SizedBox( 
-        height: 50,
+        height: 45,
         child: TextFormField(
           keyboardType: TextInputType.text,
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.person,
-              color: Colors.grey[400],
+              color: Colors.green[200],
             ),
             labelText: 'Username',
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey)
+              borderSide: BorderSide(color: Colors.lightGreen)
             ),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.black)
@@ -59,7 +59,7 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
     return Container(
       padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
       child: SizedBox( 
-        height: 50,
+        height: 45,
         child: TextFormField(
           keyboardType: TextInputType.emailAddress,
           validator: (input) => EmailValidator.validate(input.toString()) ? null : "Invalid E-mail Address",
@@ -69,11 +69,11 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.email,
-              color: Colors.grey[400],
+              color: Colors.green[200],
             ),
             labelText: 'E-mail Address',
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey)
+              borderSide: BorderSide(color: Colors.lightGreen)
             ),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.black)
@@ -94,7 +94,7 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
     return Container(  
       padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
       child: SizedBox(
-        height: 50,
+        height: 45,
         child: TextFormField(
           keyboardType: TextInputType.text,
           obscureText: isHidden,
@@ -115,11 +115,11 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.lock,
-              color: Colors.grey[400],
+              color: Colors.green[200],
             ),
             labelText: 'Password',
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey)
+              borderSide: BorderSide(color: Colors.lightGreen)
             ),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.black)
@@ -141,7 +141,7 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
                   }
                 });
               }, 
-              icon: Icon(pwIcon)
+              icon: Icon(pwIcon, color: Colors.green[200])
             )
           ),
         )
@@ -151,9 +151,9 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
 
   Widget _buildConfirmPassword(){
     return Container(  
-      padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
+      padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
       child: SizedBox(
-        height: 50,
+        height: 45,
         child: TextFormField(
           keyboardType: TextInputType.text,
           obscureText: isHidden,
@@ -174,11 +174,11 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.lock,
-              color: Colors.grey[400],
+              color: Colors.green[200],
             ),
-            labelText: 'Password',
+            labelText: 'Confirm Password',
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey)
+              borderSide: BorderSide(color: Colors.lightGreen)
             ),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.black)
@@ -200,7 +200,7 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
                   }
                 });
               }, 
-              icon: Icon(pwIcon)
+              icon: Icon(pwIcon, color: Colors.green[200])
             )
           ),
         )
@@ -242,7 +242,7 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(2)),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 170)
+          padding: EdgeInsets.symmetric(horizontal: 173)
         ),
       ),
     );

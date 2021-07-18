@@ -27,11 +27,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.email,
-              color: Colors.grey[400],
+              color: Colors.green[200],
             ),
             labelText: 'E-mail Address',
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey)
+              borderSide: BorderSide(color: Colors.lightGreen)
             ),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.black)
@@ -78,7 +78,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             color: Colors.white
           )
         ),
-        backgroundColor: Colors.grey,
+        backgroundColor: Colors.green[200],
         leading: IconButton(
           icon: new Icon(
             Icons.arrow_back,

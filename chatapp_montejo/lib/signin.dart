@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'forgotpass.dart';
-import 'chat.dart';
+import 'landing.dart';
 import 'signup.dart';
 
 class LoginPage extends StatefulWidget {
@@ -41,11 +41,11 @@ class _LoginPageState extends State<LoginPage> {
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.email,
-              color: Colors.grey[400],
+              color: Colors.green[200],
             ),
             labelText: 'E-mail Address',
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey)
+              borderSide: BorderSide(color: Colors.lightGreen)
             ),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.black)
@@ -86,11 +86,11 @@ class _LoginPageState extends State<LoginPage> {
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.lock,
-              color: Colors.grey[400],
+              color: Colors.green[200],
             ),
             labelText: 'Password',
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey)
+              borderSide: BorderSide(color: Colors.lightGreen)
             ),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.black)
@@ -112,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                   }
                 });
               }, 
-              icon: Icon(pwIcon)
+              icon: Icon(pwIcon, color: Colors.green[200])
             )
           ),
         )
@@ -143,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
           style: TextStyle(color: Colors.white)
         ),
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ChatPage()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => LandingPage()));
         },
         style: ElevatedButton.styleFrom(
           primary: Colors.green,
@@ -170,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(2)),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 130)
+          padding: EdgeInsets.symmetric(horizontal: 134)
         ),
       ),
     );
