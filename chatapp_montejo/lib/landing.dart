@@ -4,14 +4,15 @@ import 'profile.dart';
 import 'chat.dart';
 
 class LandingPage extends StatefulWidget {
-  const LandingPage({ Key? key }) : super(key: key);
-
+  const LandingPage({ Key? key}) : super(key: key);
+  
   @override
   _LandingPageState createState() => _LandingPageState();
 }
 
 class _LandingPageState extends State<LandingPage> {
   int _currentIndex = 0;
+
   final List<Widget> _children = [
     ChatPage(),
     ProfilePage()
@@ -46,3 +47,4 @@ class _LandingPageState extends State<LandingPage> {
    });
  }
 }
+

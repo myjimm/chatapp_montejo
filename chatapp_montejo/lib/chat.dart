@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'message.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({ Key? key }) : super(key: key);
@@ -41,6 +42,31 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
+  Widget _buildContact() {
+    return Container(
+      padding: EdgeInsets.all(10),
+      child: ElevatedButton(
+        child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          "Name & Email",
+          style: TextStyle(color: Colors.black),
+          textAlign: TextAlign.left,
+        ),
+      ),
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => MessagePage()));
+        },
+        style: ElevatedButton.styleFrom(
+          primary: Colors.white,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(2)),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,6 +75,7 @@ class _ChatPageState extends State<ChatPage> {
           child: Column(
             children: [
               _buildSearch(),
+              _buildContact()
             ],
           )
         )
