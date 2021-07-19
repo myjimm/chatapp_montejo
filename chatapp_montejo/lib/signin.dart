@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'forgotpass.dart';
-import 'landing.dart';
+// import 'landing.dart';
 import 'signup.dart';
 
 class LoginPage extends StatefulWidget {
@@ -16,6 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   String emailAddress = "", password = "";
   bool isHidden = true;
   IconData pwIcon = Icons.remove_red_eye_sharp;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _buildLogoColumn(){
     return Container(
@@ -23,7 +24,6 @@ class _LoginPageState extends State<LoginPage> {
       width: MediaQuery.of(context).size.width,
       child: Image(
         image: AssetImage('assets/montejo_logo.png'),
-        // fit: BoxFit.fill
         fit: BoxFit.contain
       ),
     );
@@ -72,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
           obscureText: isHidden,
           autocorrect: false,
           validator: (input){
-            if(input == null){ //not sure about this (old: input.length < 1)
+            if(input.toString().length < 1){ 
               return "This field is required";
             }else{
               return null;
@@ -145,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
           style: TextStyle(color: Colors.white)
         ),
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => LandingPage()));
+          // Navigator.push(context, MaterialPageRoute(builder: (context) => LandingPage()));
         },
         style: ElevatedButton.styleFrom(
           primary: Colors.green,
@@ -208,16 +208,20 @@ class _LoginPageState extends State<LoginPage> {
                 height: 0.5 * MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.all(10),
-                child: Column(
-                  children: [
-                    _buildEmail(),
-                    _buildPassword(),
-                    _buildForgotPass(),
-                    _buildSignInBtn(),
-                    _buildCreateAcc(),
-                    _buildSocials()
-                  ],
-                ),
+                child: Form(
+                  autovalidateMode: AutovalidateMode.always, 
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      _buildEmail(),
+                      _buildPassword(),
+                      _buildForgotPass(),
+                      _buildSignInBtn(),
+                      _buildCreateAcc(),
+                      _buildSocials()
+                    ],
+                  ),
+                )
               ),
             ],
           ),

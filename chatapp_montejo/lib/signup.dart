@@ -13,6 +13,7 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
   String emailAddress = "", password = "";
   bool isHidden = true;
   IconData pwIcon = Icons.remove_red_eye_sharp;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _buildLogoColumn(){
     return Container(
@@ -32,6 +33,13 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
         height: 45,
         child: TextFormField(
           keyboardType: TextInputType.text,
+          validator: (input){
+            if(input.toString().length < 1){ 
+              return "This field is required";
+            }else{
+              return null;
+            }
+          },
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.person,
@@ -101,7 +109,7 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
           obscureText: isHidden,
           autocorrect: false,
           validator: (input){
-            if(input == null){ //not sure about this (old: input.length < 1)
+            if(input.toString().length < 1){ 
               return "This field is required";
             }else{
               return null;
@@ -160,7 +168,7 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
           obscureText: isHidden,
           autocorrect: false,
           validator: (input){
-            if(input == null){ //not sure about this (old: input.length < 1)
+            if(input.toString().length < 1){ 
               return "This field is required";
             }else{
               return null;
@@ -207,8 +215,8 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
         )
       )
     );
-  }  
-  
+  }
+
   Widget _buildSignUpBtn() {
     return  SizedBox(
       width: double.infinity,
@@ -216,9 +224,20 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
         child: Text("Sign Up",
           style: TextStyle(color: Colors.white)
         ),
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(title: 'Chat-App')));
-        },
+        onPressed: () => showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => 
+            AlertDialog(
+              title: Text('Success'),
+              content: Text('Sign up succesful. Verification Email is sent.'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(title: 'Chat-App'))),
+                  child: Text('Yes'),
+                )
+              ],
+            ),
+        ),
         style: ElevatedButton.styleFrom(
           primary: Colors.green,
           shape: const RoundedRectangleBorder(
@@ -279,17 +298,21 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.all(10),
-                child: Column(
-                  children: [
-                    _buildUsername(),
-                    _buildEmail(),
-                    _buildPassword(),
-                    _buildConfirmPassword(),
-                    _buildSignUpBtn(),
-                    _buildSignInBtn(),
-                    _buildSocials()
-                  ],
-                ),
+                child: Form(
+                  autovalidateMode: AutovalidateMode.always,
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      _buildUsername(),
+                      _buildEmail(),
+                      _buildPassword(),
+                      _buildConfirmPassword(),
+                      _buildSignUpBtn(),
+                      _buildSignInBtn(),
+                      _buildSocials()
+                    ],
+                  ),
+                )
               ),
             ],
           ),

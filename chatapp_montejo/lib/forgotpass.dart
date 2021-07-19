@@ -11,6 +11,7 @@ class ForgotPasswordPage extends StatefulWidget {
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   String emailAddress = "";
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _buildEmail(){
     return Container(
@@ -55,15 +56,25 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         child: Text("Send Reset Password Email",
           style: TextStyle(color: Colors.white)
         ),
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(title: 'Chat-App')));
-        },
+        onPressed: () => showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => 
+            AlertDialog(
+              title: Text('Success'),
+              content: Text('An e-mail has been sent to your e-mail address.'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(title: 'Chat-App'))),
+                  child: Text('Okay'),
+                )
+              ],
+            ),
+        ),
         style: ElevatedButton.styleFrom(
           primary: Colors.green,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(2)),
           ),
-          // padding: EdgeInsets.symmetric(horizontal: 100)
         ),
       ),
     );
@@ -94,13 +105,17 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           height: 0.5 * MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.all(10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              _buildEmail(),
-              _buildResetPassBtn() 
-            ],
+          child: Form(
+            autovalidateMode: AutovalidateMode.always,
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _buildEmail(),
+                _buildResetPassBtn() 
+              ],
+            )
           )
         )
       )
