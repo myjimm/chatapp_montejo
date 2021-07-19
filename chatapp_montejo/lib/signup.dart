@@ -20,7 +20,8 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
       height: 0.42 * MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: Image(
-        image: AssetImage('assets/montejo_logo.png')
+        image: AssetImage('assets/montejo_logo.png'),
+        fit: BoxFit.contain
       ),
     );
   }
@@ -209,7 +210,8 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
   }  
   
   Widget _buildSignUpBtn() {
-    return Container(
+    return  SizedBox(
+      width: double.infinity,
       child: ElevatedButton(
         child: Text("Sign Up",
           style: TextStyle(color: Colors.white)
@@ -221,15 +223,15 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
           primary: Colors.green,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(2)),
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 170)
+          )
         ),
       ),
     );
   }
 
   Widget _buildSignInBtn() {
-    return Container(
+    return  SizedBox(
+      width: double.infinity,
       child: ElevatedButton(
         child: Text("Sign In",
           style: TextStyle(color: Colors.white)
@@ -241,8 +243,7 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
           primary: Colors.grey,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(2)),
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 173)
+          )
         ),
       ),
     );
@@ -250,22 +251,16 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
 
   Widget _buildSocials(){
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.symmetric(vertical: 10),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            padding: EdgeInsetsDirectional.only(end: 15),
-            width: 185,
-            child: Image(
-              image: AssetImage('assets/GoogleSignUp.png')
-            ),
+          Expanded(
+            child: Image.asset('assets/GoogleSignUp.png'),
           ),
-          Container(
-            padding: EdgeInsetsDirectional.only(start: 15),
-            width: 185,
-            child: Image(
-              image: AssetImage('assets/FacebookSignUp.png')
-            ),
+          Expanded(
+            child: Image.asset('assets/FacebookSignUp.png')
           )
         ],
       )

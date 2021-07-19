@@ -23,7 +23,8 @@ class _LoginPageState extends State<LoginPage> {
       width: MediaQuery.of(context).size.width,
       child: Image(
         image: AssetImage('assets/montejo_logo.png'),
-        fit: BoxFit.fill
+        // fit: BoxFit.fill
+        fit: BoxFit.contain
       ),
     );
   }
@@ -137,7 +138,8 @@ class _LoginPageState extends State<LoginPage> {
   }  
 
   Widget _buildSignInBtn() {
-    return Container(
+    return SizedBox(
+      width: double.infinity,
       child: ElevatedButton(
         child: Text("Sign In",
           style: TextStyle(color: Colors.white)
@@ -150,14 +152,15 @@ class _LoginPageState extends State<LoginPage> {
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(2)),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 170)
+          padding: EdgeInsets.symmetric(horizontal: 100)
         ),
       ),
     );
   }
 
   Widget _buildCreateAcc() {
-    return Container(
+    return SizedBox(
+      width: double.infinity,
       child: ElevatedButton(
         child: Text("Create an Account",
           style: TextStyle(color: Colors.white),
@@ -170,7 +173,6 @@ class _LoginPageState extends State<LoginPage> {
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(2)),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 134)
         ),
       ),
     );
@@ -178,22 +180,16 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buildSocials(){
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.symmetric(vertical: 10),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            padding: EdgeInsetsDirectional.only(end: 15),
-            width: 185,
-            child: Image(
-              image: AssetImage('assets/GoogleSignIn.png')
-            ),
+          Expanded(
+            child: Image.asset('assets/GoogleSignIn.png'),
           ),
-          Container(
-            padding: EdgeInsetsDirectional.only(start: 15),
-            width: 185,
-            child: Image(
-              image: AssetImage('assets/FacebookSignIn.png')
-            ),
+          Expanded(
+            child: Image.asset('assets/FacebookSignIn.png')
           )
         ],
       )

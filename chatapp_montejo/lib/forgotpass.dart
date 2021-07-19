@@ -15,7 +15,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Widget _buildEmail(){
     return Container(
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(horizontal: 10),
       child: SizedBox( 
         height: 50,
         child: TextFormField(
@@ -50,6 +49,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   Widget _buildResetPassBtn() {
     return Container(
+      width: double.infinity,
       padding: EdgeInsets.symmetric(vertical: 10),
       child: ElevatedButton(
         child: Text("Send Reset Password Email",
@@ -63,7 +63,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(2)),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 100)
+          // padding: EdgeInsets.symmetric(horizontal: 100)
         ),
       ),
     );
