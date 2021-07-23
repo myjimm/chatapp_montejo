@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'signin.dart';
+// import 'signin.dart';
 
 class CreateAnAccountPage extends StatefulWidget {
-  const CreateAnAccountPage({ Key? key }) : super(key: key);
+  final Function? toggleView;
+  CreateAnAccountPage({this.toggleView});
 
   @override
   _CreateAnAccountPageState createState() => _CreateAnAccountPageState();
 }
 
 class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
-  String emailAddress = "", password = "";
+  String? emailAddress, password, confirmPassword;
   bool isHidden = true;
   IconData pwIcon = Icons.remove_red_eye_sharp;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -75,6 +76,9 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
           onSaved: (input) {
             emailAddress = input.toString();
           },
+          onChanged: (input) {
+            emailAddress = input.toString();
+          },
           decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.email,
@@ -116,10 +120,13 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
             }
           },
           onSaved: (input) => password = input.toString(), 
-          onChanged: (value){
-            setState(() {
-              password = value;
-            });
+          // onChanged: (value){
+          //   setState(() {
+          //     password = value;
+          //   });
+          // },
+          onChanged: (input) {
+            password = input.toString();
           },
           decoration: InputDecoration(
             prefixIcon: Icon(
@@ -174,11 +181,14 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
               return null;
             }
           },
-          onSaved: (input) => password = input.toString(), 
-          onChanged: (value){
-            setState(() {
-              password = value;
-            });
+          onSaved: (input) => confirmPassword = input.toString(), 
+          // onChanged: (value){
+          //   setState(() {
+          //     password = value;
+          //   });
+          // },
+          onChanged: (input) {
+            confirmPassword = input.toString();
           },
           decoration: InputDecoration(
             prefixIcon: Icon(
@@ -232,7 +242,8 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
               content: Text('Sign up succesful. Verification Email is sent.'),
               actions: [
                 TextButton(
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(title: 'Chat-App'))),
+                  // onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(title: 'Chat-App'))),
+                  onPressed: (){},
                   child: Text('Yes'),
                 )
               ],
@@ -256,7 +267,7 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
           style: TextStyle(color: Colors.white)
         ),
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(title: 'Chat-App')));
+          widget.toggleView!();
         },
         style: ElevatedButton.styleFrom(
           primary: Colors.grey,

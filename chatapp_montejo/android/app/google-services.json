@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "397389342395",
+    "project_id": "chat-app-4ea67",
+    "storage_bucket": "chat-app-4ea67.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:397389342395:android:1e0b1f2a3dabc9dfdf6b9e",
+        "android_client_info": {
+          "package_name": "com.montejo.chatapp_montejo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "397389342395-d85hqk0b8kg0sk9qvqld8qpkh04ongkj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEGdVCa2o30hCz1snx1SJyzJemV38KkeU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "397389342395-d85hqk0b8kg0sk9qvqld8qpkh04ongkj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'forgotpass.dart';
-// import 'landing.dart';
-import 'signup.dart';
+import 'services/backend.dart';
+import 'wrapper.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({Key? key, required this.title}) : super(key: key);
-  final String title;
+  final Function? toggleView;
+  LoginPage({this.toggleView});
 
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String emailAddress = "", password = "";
+  String? emailAddress, password;
   bool isHidden = true;
   IconData pwIcon = Icons.remove_red_eye_sharp;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -37,6 +37,9 @@ class _LoginPageState extends State<LoginPage> {
           keyboardType: TextInputType.emailAddress,
           validator: (input) => EmailValidator.validate(input.toString()) ? null : "Invalid E-mail Address",
           onSaved: (input) {
+            emailAddress = input.toString();
+          },
+          onChanged: (input) {
             emailAddress = input.toString();
           },
           decoration: InputDecoration(
@@ -79,10 +82,13 @@ class _LoginPageState extends State<LoginPage> {
             }
           },
           onSaved: (input) => password = input.toString(), 
-          onChanged: (value){
-            setState(() {
-              password = value;
-            });
+          // onChanged: (value){
+          //   setState(() {
+          //     password = value;
+          //   });
+          // },
+          onChanged: (input) {
+            password = input.toString();
           },
           decoration: InputDecoration(
             prefixIcon: Icon(
@@ -144,8 +150,52 @@ class _LoginPageState extends State<LoginPage> {
         child: Text("Sign In",
           style: TextStyle(color: Colors.white)
         ),
-        onPressed: () {
-          // Navigator.push(context, MaterialPageRoute(builder: (context) => LandingPage()));
+        onPressed: () async {
+          if(_formKey.currentState?.validate() == true){
+            _formKey.currentState?.save();
+          }
+          final AuthenticationMethods authMethods = AuthenticationMethods();
+          dynamic result = await authMethods.signinWithEmailandPassword(emailAddress.toString(), password.toString());
+          if(result == null){
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text(
+                    "Error"
+                  ),
+                  content: Text(
+                    "No account exists"
+                  ),
+                  actions: [
+                    TextButton(
+                      child: Text(
+                        'OKAY',
+                        style: TextStyle(
+                          color: Colors.red
+                        )
+                      ),
+                      onPressed: () {
+                        // if(error == "verified"){
+                        //   Navigator.of(context)
+                        //         .pushReplacement(MaterialPageRoute(builder: (context)=> Wrapper(status: isVerified)));
+                        //   authMethods.verifyEmail();
+                        // }else if (error == "connected"){
+                        //   Navigator.of(context)
+                        //         .pushReplacement(MaterialPageRoute(builder: (context)=>MainPage()));
+                        // }
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ]
+                );
+              }
+            );
+          }else{
+            Navigator.of(context)
+                     .pushReplacement(MaterialPageRoute(builder: (context)=> Wrapper()));
+          }
         },
         style: ElevatedButton.styleFrom(
           primary: Colors.green,
@@ -166,7 +216,7 @@ class _LoginPageState extends State<LoginPage> {
           style: TextStyle(color: Colors.white),
         ),
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => CreateAnAccountPage()));
+          widget.toggleView!();
         },
         style: ElevatedButton.styleFrom(
           primary: Colors.grey,
@@ -209,7 +259,7 @@ class _LoginPageState extends State<LoginPage> {
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.all(10),
                 child: Form(
-                  autovalidateMode: AutovalidateMode.always, 
+                  // autovalidateMode: AutovalidateMode.always, 
                   key: _formKey,
                   child: Column(
                     children: [

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'signin.dart';
+// import 'signin.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({ Key? key }) : super(key: key);
@@ -10,7 +10,7 @@ class ForgotPasswordPage extends StatefulWidget {
 }
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
-  String emailAddress = "";
+  String? emailAddress;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _buildEmail(){
@@ -22,6 +22,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           keyboardType: TextInputType.emailAddress,
           validator: (input) => EmailValidator.validate(input.toString()) ? null : "Invalid E-mail Address",
           onSaved: (input) {
+            emailAddress = input.toString();
+          },
+          onChanged: (input) {
             emailAddress = input.toString();
           },
           decoration: InputDecoration(
@@ -64,7 +67,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               content: Text('An e-mail has been sent to your e-mail address.'),
               actions: [
                 TextButton(
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(title: 'Chat-App'))),
+                  onPressed: (){},
+                  // onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(title: 'Chat-App'))),
                   child: Text('Okay'),
                 )
               ],
@@ -96,7 +100,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             color: Colors.white,
           ),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(title: 'Chat-App')));
+            Navigator.pop(context);
           }
         ),
       ),
