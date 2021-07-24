@@ -1,5 +1,10 @@
+import 'package:chatapp_montejo/services/backend.dart';
+import 'package:chatapp_montejo/verify.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+
+// import 'authenticate/auth.dart';
+import 'controller/userController.dart';
 // import 'signin.dart';
 
 class CreateAnAccountPage extends StatefulWidget {
@@ -11,7 +16,7 @@ class CreateAnAccountPage extends StatefulWidget {
 }
 
 class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
-  String? emailAddress, password, confirmPassword;
+  String? username, emailAddress, password, confirmPassword;
   bool isHidden = true;
   IconData pwIcon = Icons.remove_red_eye_sharp;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -40,6 +45,12 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
             }else{
               return null;
             }
+          },
+          onSaved: (input) {
+            username = input.toString();
+          },
+          onChanged: (input) {
+            username = input.toString();
           },
           decoration: InputDecoration(
             prefixIcon: Icon(
@@ -234,21 +245,121 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
         child: Text("Sign Up",
           style: TextStyle(color: Colors.white)
         ),
-        onPressed: () => showDialog<String>(
-          context: context,
-          builder: (BuildContext context) => 
-            AlertDialog(
-              title: Text('Success'),
-              content: Text('Sign up succesful. Verification Email is sent.'),
-              actions: [
-                TextButton(
-                  // onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(title: 'Chat-App'))),
-                  onPressed: (){},
-                  child: Text('Yes'),
-                )
-              ],
-            ),
-        ),
+        onPressed: () async {
+          String uid;
+          String photo = "https://res.cloudinary.com/jerrick/image/upload/f_jpg,q_auto,w_720/wi7mvdmpmtqkfuqymqqt.jpg";
+          AuthenticationMethods authMethods = new AuthenticationMethods();
+          if(_formKey.currentState?.validate() == true){
+            _formKey.currentState?.save();
+            try{
+              dynamic result = await authMethods.signupWithEmailAndPassword(emailAddress.toString(), password.toString());
+              if(result == null){
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text(
+                        "Error"
+                      ),
+                      content: Text(
+                        "This e-mail address is already in use. Try another one.",
+                        style: TextStyle(
+                          fontFamily: "Montserrat"
+                        )
+                      ),
+                      actions: [
+                        TextButton(
+                          child: Text(
+                            'OKAY',
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontFamily: "Montserrat"
+                            )
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        )
+                      ]
+                    );
+                  }
+                );
+              }else{
+                uid = "${result.uid}";
+                await authMethods.updateProfile(username.toString(), photo);
+                UserController().createUser(uid, emailAddress, username);
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text(
+                        'Success',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontFamily: "Montserrat"
+                        )
+                      ),
+                      content: Text(
+                        "Sign up successful. Verification email sent."
+                      ),
+                      actions: [
+                        TextButton(
+                          child: Text(
+                            'OKAY',
+                            style: TextStyle(
+                              color: Colors.red,
+                            )
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context)
+                              .pushReplacement(MaterialPageRoute(builder: (context)=>VerifyPage()));
+                          },
+                        )
+                      ]
+                    );
+                  }
+                );
+              }
+            }catch(e){
+              print(e.toString());
+            }
+          }else{
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text(
+                    "Error",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontFamily: "Montserrat"
+                    )
+                  ),
+                  content: Text(
+                    "Missing Fields."
+                  ),
+                  actions: [
+                    TextButton(
+                      child: Text(
+                        'OKAY',
+                        style: TextStyle(
+                          color: Colors.red
+                        )
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ]
+                );
+              }
+            );
+          }
+        },
         style: ElevatedButton.styleFrom(
           primary: Colors.green,
           shape: const RoundedRectangleBorder(

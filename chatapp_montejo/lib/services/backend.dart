@@ -54,4 +54,72 @@ class AuthenticationMethods{
       return null;
     }
   }
+
+  Future resetPassword(String email)async{
+    try{
+      return await _auth.sendPasswordResetEmail(email: email);
+    }catch(e){
+      print(e.toString());
+    }
+  }
+
+  //Send Verification Email
+  Future verifyEmail() async {
+    User? user = _auth.currentUser;
+    try{
+      if (!(user!.emailVerified)) {
+        await user.sendEmailVerification();
+      }
+    }catch(e){
+      print(e.toString());
+    }
+  }
+
+  //Check if email is verified
+  Future <bool> checkVerfiedEmail() async{
+    User? user = _auth.currentUser;
+    await user!.reload();
+    bool output = user.emailVerified;
+    print(output);
+    if(output == true){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  //Sign up with Custom Fields
+  Future signupWithEmailAndPassword(String email, String password) async{
+    try {
+      UserCredential result = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password
+      );
+      // User firebaseUser = result.user;
+      // return _userFromFirebaseUser(firebaseUser);
+      User? firebaseUser = result.user;
+      return firebaseUser;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+    }catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
+  //Update User's Profile
+  Future updateProfile(String username, String photo) async {
+    User? user = _auth.currentUser;
+    try{
+      await user?.updateDisplayName(username);
+      await user?.updatePhotoURL(photo);
+    }catch(e){
+      print(e.toString());
+    }
+  }
+
 }

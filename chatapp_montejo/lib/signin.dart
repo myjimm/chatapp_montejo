@@ -4,6 +4,10 @@ import 'forgotpass.dart';
 import 'services/backend.dart';
 import 'wrapper.dart';
 
+// import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+
 class LoginPage extends StatefulWidget {
   final Function? toggleView;
   LoginPage({this.toggleView});
@@ -153,10 +157,72 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: () async {
           if(_formKey.currentState?.validate() == true){
             _formKey.currentState?.save();
-          }
-          final AuthenticationMethods authMethods = AuthenticationMethods();
-          dynamic result = await authMethods.signinWithEmailandPassword(emailAddress.toString(), password.toString());
-          if(result == null){
+            final AuthenticationMethods authMethods = AuthenticationMethods();
+            dynamic result = await authMethods.signinWithEmailandPassword(emailAddress.toString(), password.toString());
+            if(result == null){
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text(
+                      "Error"
+                    ),
+                    content: Text(
+                      "No account exists"
+                    ),
+                    actions: [
+                      TextButton(
+                        child: Text(
+                          'OKAY',
+                          style: TextStyle(
+                            color: Colors.red
+                          )
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      )
+                    ]
+                  );
+                }
+              );
+            }else{
+              dynamic isVerified = await authMethods.checkVerfiedEmail();
+              if(isVerified == false) {
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text(
+                        "Error"
+                      ),
+                      content: Text(
+                        "Email not verified. Send another verification email."
+                      ),
+                      actions: [
+                        TextButton(
+                          child: Text(
+                            'OKAY',
+                            style: TextStyle(
+                              color: Colors.red
+                            )
+                          ),
+                          onPressed: () async {
+                            Navigator.of(context).pop();
+                          },
+                        )
+                      ]
+                    );
+                  }
+                );
+              }else{
+                Navigator.of(context)
+                         .pushReplacement(MaterialPageRoute(builder: (context)=> Wrapper(status: isVerified)));
+              }
+            }
+          }else{
             showDialog(
               context: context,
               barrierDismissible: false,
@@ -166,7 +232,7 @@ class _LoginPageState extends State<LoginPage> {
                     "Error"
                   ),
                   content: Text(
-                    "No account exists"
+                    "Missing Fields"
                   ),
                   actions: [
                     TextButton(
@@ -192,9 +258,6 @@ class _LoginPageState extends State<LoginPage> {
                 );
               }
             );
-          }else{
-            Navigator.of(context)
-                     .pushReplacement(MaterialPageRoute(builder: (context)=> Wrapper()));
           }
         },
         style: ElevatedButton.styleFrom(

@@ -1,5 +1,8 @@
+import 'package:chatapp_montejo/services/backend.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+
+import 'authenticate/auth.dart';
 // import 'signin.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -11,6 +14,7 @@ class ForgotPasswordPage extends StatefulWidget {
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   String? emailAddress;
+  bool isLoading = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _buildEmail(){
@@ -59,21 +63,44 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         child: Text("Send Reset Password Email",
           style: TextStyle(color: Colors.white)
         ),
-        onPressed: () => showDialog<String>(
-          context: context,
-          builder: (BuildContext context) => 
-            AlertDialog(
-              title: Text('Success'),
-              content: Text('An e-mail has been sent to your e-mail address.'),
-              actions: [
-                TextButton(
-                  onPressed: (){},
-                  // onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(title: 'Chat-App'))),
-                  child: Text('Okay'),
-                )
-              ],
-            ),
-        ),
+        onPressed: () async {
+          final AuthenticationMethods authMethods = AuthenticationMethods();
+          if(_formKey.currentState?.validate()==true){
+            _formKey.currentState?.save();
+            authMethods.resetPassword(emailAddress.toString());
+            setState(() {
+              isLoading = true;
+            });
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text(
+                    "Success"
+                  ),
+                  content: Text(
+                    "An email has been sent to your email address."
+                  ),
+                  actions: [
+                    TextButton(
+                      child: Text(
+                        'OKAY',
+                      style: TextStyle(
+                        color: Colors.green
+                      )
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Auth()));
+                      },
+                    )
+                  ]
+                );
+              }
+            );
+          }
+        }, 
         style: ElevatedButton.styleFrom(
           primary: Colors.green,
           shape: const RoundedRectangleBorder(
@@ -110,7 +137,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.all(10),
           child: Form(
-            autovalidateMode: AutovalidateMode.always,
+            // autovalidateMode: AutovalidateMode.always,
             key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

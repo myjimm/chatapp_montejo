@@ -9,12 +9,14 @@ class Loading extends StatelessWidget {
     const spinkit = SpinKitRing(
       color: Colors.lightGreen
     );
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      color: Colors.white,
-      child: Center(
-        child: spinkit
-      ),
+    return Center(
+      child: Container(
+        height: MediaQuery.of(context).size.height,
+        color: Colors.white,
+        child: Center(
+          child: spinkit
+        ),        
+      )
     );
   }
 }

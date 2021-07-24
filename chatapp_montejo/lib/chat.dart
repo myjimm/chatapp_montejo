@@ -1,14 +1,28 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'controller/userController.dart';
 import 'message.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({ Key? key }) : super(key: key);
-
   @override
   _ChatPageState createState() => _ChatPageState();
 }
 
 class _ChatPageState extends State<ChatPage> {
+  Stream? streamChatrooms, streamSearchedUsers;
+  String? chatroomId;
+  User? user;
+  String? currentUser;
+  String searchEmail = "";
+  dynamic hasNoContact = true;
+  bool isEmpty = true;
+  bool isEntered = false;
+  final searchHolder = TextEditingController();
+
+  onSearchButtonClick(String userEmail) async {
+    streamSearchedUsers = await UserController().getUserbyEmail(userEmail);
+    setState(() {});
+  }
 
   Widget _buildSearch() {
     return Container(
@@ -17,11 +31,41 @@ class _ChatPageState extends State<ChatPage> {
       child: SizedBox( 
         height: 50,
         child: TextFormField(
-          keyboardType: TextInputType.text,
+          textInputAction: TextInputAction.search,
+          keyboardType: TextInputType.emailAddress,
+          controller: searchHolder,
+          onChanged: (value){
+            if(value.isNotEmpty){
+              isEmpty = false;
+            }else{
+              isEmpty = true;
+            }
+            setState(() {
+              searchEmail = value;
+            });
+          },
+          onFieldSubmitted: (input) async {
+            //changes the view to retrieve results of the query
+            if(input.isNotEmpty){
+              setState(() {
+                isEntered = true;
+              });
+              searchEmail = input;
+              onSearchButtonClick(searchEmail);
+            }
+          },
           decoration: InputDecoration(
-            prefixIcon: Icon(
-              Icons.search,
-              color: Colors.green[200],
+            suffixIcon: isEmpty ? Icon(Icons.search_outlined) : 
+              IconButton(
+              onPressed: () {
+                setState(() {
+                  //Clears the search bar on click
+                  isEmpty = true;
+                  isEntered = false;
+                  searchHolder.clear();
+                });
+              },
+              icon: Icon(Icons.cancel),
             ),
             labelText: 'Search',
             enabledBorder: OutlineInputBorder(
