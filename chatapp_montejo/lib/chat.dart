@@ -1,7 +1,16 @@
+import 'package:chatapp_montejo/noChatRooms.dart';
+import 'package:chatapp_montejo/services/backend.dart';
+import 'package:chatapp_montejo/usersList.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'chatroomlist.dart';
+import 'controller/chatroomController.dart';
 import 'controller/userController.dart';
-import 'message.dart';
+import 'loading.dart';
+// import 'message.dart';
+import 'models/appUsers.dart';
 
 class ChatPage extends StatefulWidget {
   @override
@@ -22,6 +31,26 @@ class _ChatPageState extends State<ChatPage> {
   onSearchButtonClick(String userEmail) async {
     streamSearchedUsers = await UserController().getUserbyEmail(userEmail);
     setState(() {});
+  }
+
+  getChatroomList() async {
+    user = await AuthenticationMethods().getCurrentUser();
+    currentUser = user?.displayName;
+    streamChatrooms = await ChatroomController().retrieveChatrooms();
+    dynamic checker = await ChatroomController().checkForChatrooms();
+    hasNoContact = checker;
+  }
+
+  displayContacts(){
+    setState((){
+      hasNoContact = false;
+    });
+  }
+
+  @override
+  void initState(){
+    getChatroomList();
+    super.initState();
   }
 
   Widget _buildSearch() {
@@ -86,41 +115,58 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  Widget _buildContact() {
-    return Container(
-      padding: EdgeInsets.all(10),
-      child: ElevatedButton(
-        child: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          "Name & Email",
-          style: TextStyle(color: Colors.black),
-          textAlign: TextAlign.left,
-        ),
-      ),
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => MessagePage()));
-        },
-        style: ElevatedButton.styleFrom(
-          primary: Colors.white,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(2)),
-          ),
-        ),
-      ),
+  Widget _buildChatroomsListRow(){
+    return StreamBuilder(
+      stream: streamChatrooms,
+      builder: (context,snapshot){
+        if(!snapshot.hasData){
+          return Loading();
+        }
+        return ListView.builder(
+          itemCount: (snapshot.data as QuerySnapshot).docs.length,
+          shrinkWrap: true,
+          itemBuilder: (context, index){
+            DocumentSnapshot chatroomSnapshot = (snapshot.data as QuerySnapshot).docs[index];
+            String chattedUser = chatroomSnapshot.id.replaceAll(currentUser.toString(), "").replaceAll("_", "");
+            String emailAddress = user!.email.toString();
+            String lastMessage = chatroomSnapshot['lastMessage'];
+            var isEmptyMessages = (chatroomSnapshot.data() as dynamic).isEmpty;
+            bool hasNoConversation = isEmptyMessages ? true : false;
+            hasNoContact = false;
+            return ChatroomList(
+              emailAddress: emailAddress, 
+              lastMessage: lastMessage, 
+              chattedUser: chattedUser,
+              currentUser: user,
+              hasNoConversation: hasNoConversation,
+            );
+          },
+        );
+      }
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          child: Column(
-            children: [
-              _buildSearch(),
-              _buildContact()
-            ],
+    return SafeArea(
+      child:Scaffold(
+        body: StreamProvider<List<AppUser?>?>.value(
+          value: UserController().retrieveAllUsers,
+          initialData: [],
+          child: SingleChildScrollView(
+            child: Container(
+              child: Column(
+                children: [
+                  _buildSearch(),
+                  MultiProvider(
+                    providers: [
+                      StreamProvider<User?>(create: (context)=> AuthenticationMethods().user, initialData: null)
+                    ],
+                    child: isEntered ? UsersList(emailAddress: searchEmail): hasNoContact? NoChatroomsPage() : _buildChatroomsListRow(),
+                  )
+                ],
+              )
+            )
           )
         )
       )

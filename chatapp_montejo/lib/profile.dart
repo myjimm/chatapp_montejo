@@ -32,18 +32,25 @@ class _ProfilePageState extends State<ProfilePage> {
     });
  }
 
-  Widget _buildProfileAcc(String emailAddress) {
+  Widget _buildProfileAcc(String displayPhoto, String name, String emailAddress) {
     return Container(
       padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
       child: Container(
         child: Column(
           children: [
-            Icon(
-              Icons.account_circle,
-              color: Colors.green[200],
-              size: 100,
+            CircleAvatar(
+              radius: 100,
+              backgroundColor: Colors.white,
+              child: CircleAvatar(
+                radius: 95,
+                backgroundColor: Colors.green[200],
+                child: CircleAvatar(
+                  radius: 90.0,
+                  backgroundImage: NetworkImage(displayPhoto),
+                )
+              ) 
             ),
-            Text("Name", 
+            Text(name, 
               style: TextStyle(
                 fontSize: 30, 
                 color: Colors.black
@@ -72,8 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
           onPressed: () {
             setState(() {
                 isLoading = true;
-              });
-              //some code to sign out 
+              }); 
               final AuthenticationMethods authmethods = new AuthenticationMethods();
               showDialog(
                 context: context,
@@ -96,12 +102,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         onPressed: () {
                           setState(() {
-                            // isVerified = false;
                             isLoading = false;
                           });
                           Navigator.of(context).pop();
-                          // Navigator.of(context)
-                          //   .pushReplacement(MaterialPageRoute(builder: (context)=> Wrapper(status: isVerified)));
                         },
                       ),
                       TextButton(
@@ -143,7 +146,7 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Center(
           child: Column(
             children: [
-              _buildProfileAcc((currentUser?.email).toString()),
+              _buildProfileAcc((currentUser?.photoURL).toString(), (currentUser?.displayName).toString(), (currentUser?.email).toString()),
               _buildSignOutBtn()
             ],
           ) 

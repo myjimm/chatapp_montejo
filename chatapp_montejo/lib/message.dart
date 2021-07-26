@@ -1,7 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class MessagePage extends StatefulWidget {
-  const MessagePage({ Key? key }) : super(key: key);
+  final String? chattedUser;
+  final User? currentUser;
+  final chatroomId;
+  final hasNoConversation;
+  MessagePage({this.chattedUser, this.currentUser, this.chatroomId, this.hasNoConversation});
 
   @override
   _MessagePageState createState() => _MessagePageState();
@@ -53,7 +58,7 @@ class _MessagePageState extends State<MessagePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Name", 
+        title: Text(widget.chattedUser.toString(), 
           style: TextStyle(
             color: Colors.white
           )
