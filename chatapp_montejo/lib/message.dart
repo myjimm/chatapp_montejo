@@ -179,7 +179,7 @@ class _MessagePageState extends State<MessagePage> {
                 child: Row(
                   children: [
                     Text("Send", style: TextStyle(color: Colors.black)),
-                    SizedBox(width: 5),
+                    SizedBox(width: MediaQuery.of(context).size.width/30),
                     Icon(
                       Icons.send, color: Colors.white, size: 23,
                     ),

@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "C:\\Users\\admin\\OneDrive\\Desktop\\montejo\\chatapp_montejo\\chatapp_montejo\\build\\firebase_auth\\intermediates\\res\\merged\\release\\color\\common_google_signin_btn_tint.xml",
+        "source": "C:\\Users\\admin\\.gradle\\caches\\transforms-2\\files-2.1\\f2e1566e2c029969e7227130688d53f2\\jetified-play-services-base-17.1.0\\res\\color\\common_google_signin_btn_tint.xml"
+    },
+    {
+        "merged": "C:\\Users\\admin\\OneDrive\\Desktop\\montejo\\chatapp_montejo\\chatapp_montejo\\build\\firebase_auth\\intermediates\\res\\merged\\release\\color\\common_google_signin_btn_text_light.xml",
+        "source": "C:\\Users\\admin\\.gradle\\caches\\transforms-2\\files-2.1\\f2e1566e2c029969e7227130688d53f2\\jetified-play-services-base-17.1.0\\res\\color\\common_google_signin_btn_text_light.xml"
+    },
+    {
+        "merged": "C:\\Users\\admin\\OneDrive\\Desktop\\montejo\\chatapp_montejo\\chatapp_montejo\\build\\firebase_auth\\intermediates\\res\\merged\\release\\color\\common_google_signin_btn_text_dark.xml",
+        "source": "C:\\Users\\admin\\.gradle\\caches\\transforms-2\\files-2.1\\f2e1566e2c029969e7227130688d53f2\\jetified-play-services-base-17.1.0\\res\\color\\common_google_signin_btn_text_dark.xml"
+    }
+]

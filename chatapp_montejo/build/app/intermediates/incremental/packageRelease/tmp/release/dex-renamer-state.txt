@@ -1,0 +1,4 @@
+#Tue Jul 27 15:15:17 SGT 2021
+base.0=C\:\\Users\\admin\\OneDrive\\Desktop\\montejo\\chatapp_montejo\\chatapp_montejo\\build\\app\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
