@@ -40,7 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             CircleAvatar(
               radius: 100,
-              backgroundColor: Colors.white,
+              backgroundColor: Colors.green[400],
               child: CircleAvatar(
                 radius: 95,
                 backgroundColor: Color(0xfff9bcafa),

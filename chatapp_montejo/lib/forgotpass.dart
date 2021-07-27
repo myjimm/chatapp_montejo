@@ -99,6 +99,34 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 );
               }
             );
+          }else{
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text(
+                    "Error"
+                  ),
+                  content: Text(
+                    "Missing Fields"
+                  ),
+                  actions: [
+                    TextButton(
+                      child: Text(
+                        'OKAY',
+                        style: TextStyle(
+                          color: Colors.red
+                        )
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ]
+                );
+              }
+            );
           }
         }, 
         style: ElevatedButton.styleFrom(
