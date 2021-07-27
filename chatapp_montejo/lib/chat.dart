@@ -98,7 +98,7 @@ class _ChatPageState extends State<ChatPage> {
             ),
             labelText: 'Search',
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.lightGreen)
+              borderSide: BorderSide(color: Color(0xfff9bcafa))
             ),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.black)

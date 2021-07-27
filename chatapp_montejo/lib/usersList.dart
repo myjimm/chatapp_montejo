@@ -61,8 +61,8 @@ class _UsersListState extends State<UsersList> {
               );
             }else{
               chatroomId = ChatroomController().generateChatroomId((userDisplay[index]?.username).toString(), user!.displayName.toString());
-              dynamic exist = await ChatroomController().checkIfContactExists(chatroomId);
-              if(exist == null){
+              dynamic doesExist = await ChatroomController().checkIfContactExists(chatroomId);
+              if(doesExist == null){
                 showAddToContactAlert(
                   context, 
                   userDisplay[index]!, 
