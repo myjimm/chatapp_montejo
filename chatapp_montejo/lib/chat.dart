@@ -39,6 +39,7 @@ class _ChatPageState extends State<ChatPage> {
     streamChatrooms = await ChatroomController().retrieveChatrooms();
     dynamic checker = await ChatroomController().checkForChatrooms();
     hasNoContact = checker;
+    setState(() {});
   }
 
   displayContacts(){
@@ -49,6 +50,7 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   void initState(){
+    isEntered = false;
     getChatroomList();
     super.initState();
   }
@@ -64,6 +66,7 @@ class _ChatPageState extends State<ChatPage> {
           keyboardType: TextInputType.emailAddress,
           controller: searchHolder,
           onChanged: (value){
+            isEntered = false;
             if(value.isNotEmpty){
               isEmpty = false;
             }else{
@@ -162,6 +165,7 @@ class _ChatPageState extends State<ChatPage> {
                     providers: [
                       StreamProvider<User?>(create: (context)=> AuthenticationMethods().user, initialData: null)
                     ],
+                    // child: isEntered ? UsersList(emailAddress: searchEmail,):hasNoContact ? Container(child: Text("HELP US LORD")) : Container(child: Text("KAPOY NA"))
                     child: isEntered ? UsersList(emailAddress: searchEmail): hasNoContact? NoChatroomsPage() : _buildChatroomsListRow(),
                   )
                 ],
